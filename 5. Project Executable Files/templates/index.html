@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet">
+    <title>Machine Learning Model</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            font-family: "Kanit", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            background-image: url('https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .form {
+            background-color: rgba(255, 255, 255, 0.897);
+            padding: 2em;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            margin-top: 20px;
+        }
+
+        .input-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        label {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: white;
+            padding: 0 5px;
+            border-radius: 4px;
+            color: #999;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        input:focus+label,
+        input:not(:placeholder-shown)+label {
+            top: 0;
+            font-size: 12px;
+            color: #4CAF50;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        h3 {
+            text-align: center;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="form">
+        <h1>GARMENT WORKER PRODUCTIVITY PREDICTION</h1>
+
+        <form action="{{url_for('predict')}}" method="post">
+            <div class="input-container">
+                <input type="text" name="Quarter" id="Quarter" placeholder=" " value="{{ form_data['Quarter'] if form_data else '' }}">
+                <label for="Quarter">Quarter</label>
+            </div>
+            <div class="input-container">
+                <input type="text" name="Department" id="Department" placeholder=" " value="{{ form_data['Department'] if form_data else '' }}">
+                <label for="Department">Department</label>
+            </div>
+            <div class="input-container">
+                <input type="text" name="Day of the week" id="Day" placeholder=" " value="{{ form_data['Day of the week'] if form_data else '' }}">
+                <label for="Day">Day of the week</label>
+            </div>
+            <div class="input-container">
+                <input type="text" name="Team Number" id="Team" placeholder=" " value="{{ form_data['Team Number'] if form_data else '' }}">
+                <label for="Team">Team Number</label>
+            </div>
+            <div class="input-container">
+                <input type="text" name="Time Allocated" id="Time" placeholder=" " value="{{ form_data['Time Allocated'] if form_data else '' }}">
+                <label for="Time">Time Allocated</label>
+            </div>
+            <div class="input-container">
+                <input type="text" name="Unfinished Items" id="Unfinished" placeholder=" " value="{{ form_data['Unfinished Items'] if form_data else '' }}">
+                <label for="Unfinished">Unfinished Items</label>
+            </div>
+            <div class="input-container">
+                <input type="text" name="Over Time" id="OverTime" placeholder=" " value="{{ form_data['Over Time'] if form_data else '' }}">
+                <label for="OverTime">Over Time</label>
+            </div>
+            <div class="input-container">
+                <input type="text" name="Incentive" id="Incentive" placeholder=" " value="{{ form_data['Incentive'] if form_data else '' }}">
+                <label for="Incentive">Incentive</label>
+            </div>
+            <div class="input-container">
+                <input type="text" name="Idle Time" id="IdleTime" placeholder=" " value="{{ form_data['Idle Time'] if form_data else '' }}">
+                <label for="IdleTime">Idle Time</label>
+            </div>
+            <div class="input-container">
+                <input type="text" name="Idle Men" id="IdleMen" placeholder=" " value="{{ form_data['Idle Men'] if form_data else '' }}">
+                <label for="IdleMen">Idle Men</label>
+            </div>
+            <div class="input-container">
+                <input type="text" name="Style Change" id="StyleChange" placeholder=" " value="{{ form_data['Style Change'] if form_data else '' }}">
+                <label for="StyleChange">Style Change</label>
+            </div>
+            <div class="input-container">
+                <input type="text" name="Number of Workers" id="Workers" placeholder=" " value="{{ form_data['Number of Workers'] if form_data else '' }}">
+                <label for="Workers">Number of Workers</label>
+            </div>
+            <button type="submit">Predict</button>
+        </form>
+
+        <p>
+            The results of the prediction are as follows:
+        </p>
+        <h3>{{prediction_text}}</h3>
+    </div>
+</body>
+</html>
